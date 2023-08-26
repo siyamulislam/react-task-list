@@ -7,13 +7,18 @@ import styles from './TaskItem.module.css';
 import { CheckIcon  } from '@heroicons/react/24/outline';
 import { PencilSquareIcon  } from '@heroicons/react/24/outline';
 import { TrashIcon } from '@heroicons/react/24/outline';
+import { useDispatch } from 'react-redux';
+import { deleteTask } from '../../app/taskSlice';
 
-const TaskItem = ({ task, deleteTask, toggleTask, enterEditMode }) => {
+const TaskItem = ({ task }) => {
   const [isChecked, setIsChecked ] = useState(task.checked);
-
+  const dispatch = useDispatch();
   const handleCheckboxChange = (e) =>{
-    setIsChecked(!isChecked);
-    toggleTask(task.id);
+    setIsChecked(!isChecked); 
+  }
+  const handelDeleteTask = (id) =>{
+    dispatch(deleteTask(id));
+    console.log(id)
   }
 
   return (
@@ -41,7 +46,7 @@ const TaskItem = ({ task, deleteTask, toggleTask, enterEditMode }) => {
         <button
           className='btn'
           aria-label={`Update ${task.name} Task`}
-          onClick={() => enterEditMode(task)}
+          // onClick={() => enterEditMode(task)}
         >
           <PencilSquareIcon width={24} height={24} />
         </button>
@@ -49,7 +54,9 @@ const TaskItem = ({ task, deleteTask, toggleTask, enterEditMode }) => {
         <button
           className={`btn ${styles.delete}`}
           aria-label={`Delete ${task.name} Task`}
-          onClick={() => deleteTask(task.id)}
+          onClick={() => {
+            handelDeleteTask(task.id);
+          }}
         >
           <TrashIcon width={24} height={24} />
         </button>
