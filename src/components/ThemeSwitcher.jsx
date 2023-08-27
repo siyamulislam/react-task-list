@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import appName from '../../package.json';
 // Icons
 import { XMarkIcon, SunIcon, MoonIcon, SwatchIcon } from '@heroicons/react/24/outline';
 
@@ -10,10 +10,10 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import styles from './ThemeSwitcher.module.css';
 
 const ThemeSwitcher = () => {
-  const [hue, setHue] = useLocalStorage('react-todo.color', '240')
+  const [hue, setHue] = useLocalStorage(`${appName.name}.color`, '240')
 
   const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-  const [theme, setTheme] = useLocalStorage('react-todo.theme', defaultDark ? "dark" : "light" )
+  const [theme, setTheme] = useLocalStorage(`${appName.name}.theme`, defaultDark ? "dark" : "light" )
 
   const [isColorPicking, setIsColorPicking] = useState(false)
 
