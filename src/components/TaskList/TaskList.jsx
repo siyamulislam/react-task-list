@@ -19,7 +19,7 @@ const TaskList = () => {
   return (
     <>
       <header>
-        <h1>My Task List</h1>
+        <h1>Task List</h1>
       </header>
       <CustomForm
       onAddTask={handelAddTask}

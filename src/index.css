@@ -209,7 +209,7 @@ hr {
 
 .input:focus {
   outline: none;
-  box-shadow: 0 0 0 0.2em hsl(var(--bg)), 0 0 0 0.4em hsl(var(--accent) / 0.8);
+  box-shadow: 0 0 0 0.2em hsl(var(--bg)), 0 0 0 0.3em hsl(var(--accent) / 0.8);
 }
 
 .input:focus~.label,

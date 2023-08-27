@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import appName from '../../package.json';
 // Icons
-import { XMarkIcon, SunIcon, MoonIcon, SwatchIcon } from '@heroicons/react/24/outline';
+import { XMarkIcon, SunIcon, MoonIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 
 // Custom hooks
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -72,7 +72,7 @@ const ThemeSwitcher = () => {
                 aria-label='Enable color picking mode'
                 onClick={() => setIsColorPicking(true)}
                 >
-                <SwatchIcon />
+                <AdjustmentsHorizontalIcon  />
               </button>
             </div>
           )
