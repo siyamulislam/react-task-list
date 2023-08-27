@@ -1,29 +1,51 @@
 import { useState } from 'react';
-
 // styles
 import styles from './TaskItem.module.css';
 
 // Library imports
-import { CheckIcon  } from '@heroicons/react/24/outline';
-import { PencilSquareIcon  } from '@heroicons/react/24/outline';
+import { CheckIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { useDispatch } from 'react-redux';
-import { deleteTask } from '../../app/taskSlice';
+import { deleteTask, updateTaskChecked } from '../../app/taskSlice';
+import EditForm from '../EditForm';
 
 const TaskItem = ({ task }) => {
-  const [isChecked, setIsChecked ] = useState(task.checked);
+  const [isChecked, setIsChecked] = useState(task.checked);
+  const [isEditing, setIsEditing] = useState(false);
+  const [previousFocusEl, setPreviousFocusEl] = useState(null);
+
+
   const dispatch = useDispatch();
-  const handleCheckboxChange = (e) =>{
-    setIsChecked(!isChecked); 
+  const handleCheckboxChange = (e) => {
+    setIsChecked(!isChecked);
+    dispatch(updateTaskChecked(task.id))
   }
-  const handelDeleteTask = (id) =>{
+  const handelDeleteTask = (id) => {
     dispatch(deleteTask(id));
     console.log(id)
+  }
+  const enterEditMode = (task) => {
+    setIsEditing(true)
+    setPreviousFocusEl(document.activeElement);
+
+  }
+  const closeEditMode = () => {
+    setIsEditing(false);
+    previousFocusEl.focus();
   }
 
   return (
     <li className={styles.task}>
       <div className={styles["task-group"]}>
+        {
+          isEditing && (
+            <EditForm
+              editedTask={task}
+              closeEditMode={closeEditMode}
+            />
+          )
+        }
         <input
           type="checkbox"
           className={styles.checkbox}
@@ -38,7 +60,7 @@ const TaskItem = ({ task }) => {
         >
           {task.name}
           <p className={styles.checkmark}>
-            <CheckIcon strokeWidth={2} width={24} height={24}/>
+            <CheckIcon strokeWidth={2} width={24} height={24} />
           </p>
         </label>
       </div>
@@ -46,7 +68,7 @@ const TaskItem = ({ task }) => {
         <button
           className='btn'
           aria-label={`Update ${task.name} Task`}
-          // onClick={() => enterEditMode(task)}
+          onClick={() => enterEditMode(task)}
         >
           <PencilSquareIcon width={24} height={24} />
         </button>

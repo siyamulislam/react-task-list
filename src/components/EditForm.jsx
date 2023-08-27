@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 
 // library imports
 import { CheckIcon } from '@heroicons/react/24/solid'
+import { updateTask } from '../app/taskSlice';
+import { useDispatch } from 'react-redux';
 
-const EditForm = ({ editedTask, updateTask, closeEditMode }) => {
+const EditForm = ({ editedTask, closeEditMode }) => {
   const [updatedTaskName, setUpdatedTaskName] = useState(editedTask.name);
+ const dispatch = useDispatch();
 
-  useEffect(()=> {
+  useEffect(() => {
     const closeModalIfEscaped = (e) => {
       e.key === "Escape" && closeEditMode();
     }
@@ -16,23 +19,27 @@ const EditForm = ({ editedTask, updateTask, closeEditMode }) => {
     return () => {
       window.removeEventListener('keydown', closeModalIfEscaped)
     }
-  }, [closeEditMode])
+  }, [closeEditMode]);
+
+
 
   const handleFormSubmit = (e) => {
-    e.preventDefault();
-    updateTask({...editedTask, name: updatedTaskName})
+    e.preventDefault(); 
+    const tastTmp={...editedTask,name: updatedTaskName,}
+    dispatch(updateTask(tastTmp));
+    closeEditMode();
   }
 
   return (
     <div
       role="dialog"
       aria-labelledby="editTask"
-      onClick={(e) => {e.target === e.currentTarget && closeEditMode()}}
-      >
+    onClick={(e) => {e.target === e.currentTarget && closeEditMode()}}
+    >
       <form
         className="todo"
-        onSubmit={handleFormSubmit}
-        >
+      onSubmit={handleFormSubmit}
+      >
         <div className="wrapper">
           <input
             type="text"
@@ -54,7 +61,7 @@ const EditForm = ({ editedTask, updateTask, closeEditMode }) => {
           className="btn"
           aria-label={`Confirm edited task to now read ${updatedTaskName}`}
           type="submit"
-          >
+        >
           <CheckIcon strokeWidth={2} height={24} width={24} />
         </button>
       </form>

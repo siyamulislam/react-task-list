@@ -1,18 +1,16 @@
 import { useState } from 'react';
+import { v4 as uuidv4 } from "uuid";
 
 // library imports
 import { PlusIcon } from '@heroicons/react/24/solid'
 
-const CustomForm = ({ addTask }) => {
-  const [task, setTask] = useState("");
+const CustomForm = ({ onAddTask }) => {
+  const [newTask, setTask] = useState("");
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    addTask({
-      name: task,
-      checked: false,
-      id: Date.now()
-    })
+    const task = {id: uuidv4(),name: newTask, checked: false,};
+    onAddTask(task)
     setTask("")
   }
 
@@ -26,7 +24,7 @@ const CustomForm = ({ addTask }) => {
           type="text"
           id="task"
           className="input"
-          value={task}
+          value={newTask}
           onInput={(e) => setTask(e.target.value)}
           required
           autoFocus

@@ -24,6 +24,12 @@ export const tasksSlice = createSlice({
         isTaskExist[0].checked = checked;
       }
     },
+    updateTaskChecked: (state, action) => {
+      const id = action.payload;
+      const isTaskExist = state.tasks.filter((task) => task.id === id);
+      if (isTaskExist)isTaskExist[0].checked = !isTaskExist[0].checked;
+      
+    },
     deleteTask: (state, action) => {
       const id = action.payload;
       state.tasks = state.tasks.filter((task) => task.id !== id);
@@ -31,6 +37,6 @@ export const tasksSlice = createSlice({
   },
 });
 
-export const { showTasks, addTask, deleteTask, updateTask } =
+export const { showTasks, addTask, deleteTask, updateTask,updateTaskChecked } =
   tasksSlice.actions;
 export default tasksSlice.reducer;

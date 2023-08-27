@@ -1,61 +1,32 @@
-
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CustomForm from '../CustomForm';
-import EditForm from '../EditForm';
 import TaskItem from '../TaskItem/TaskItem';
 import './TaskList.css';
-import { useState } from "react";
+import { addTask } from '../../app/taskSlice';
 
 const TaskList = () => {
-  const [editedTask, setEditedTask] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
+  const dispatch= useDispatch();
   const tasks = useSelector((state) => state.tasksReducer.tasks);
-  console.log(tasks)
+  // console.log(tasks)
+  //  const sortedTasks = tasks.slice().sort((a, b) => b.id.localeCompare(a.id));
+   // Reverse the order of tasks
+  const reversedTasks = tasks.slice().reverse();
 
-  const addTask = (task) => {
-
+  const handelAddTask = (newTask) => {
+    dispatch(addTask(newTask)); 
   }
 
-  // const deleteTask = (id) => {
-
-  // }
-
-  // const toggleTask = (id) => {
-
-  // }
-
-  const updateTask = (task) => {
-
-    closeEditMode();
-  }
-
-  const closeEditMode = () => {
-    setIsEditing(false);
-  }
-
-  // const enterEditMode = (task) => {
-  //   setEditedTask(task);
-  //   setIsEditing(true);
-  // }
   return (
     <>
       <header>
         <h1>My Task List</h1>
       </header>
-      {
-        isEditing && (
-          <EditForm
-            editedTask={editedTask}
-            updateTask={updateTask}
-            closeEditMode={closeEditMode}
-          />
-        )
-      }
-      <CustomForm addTask={addTask} />
+      <CustomForm
+      onAddTask={handelAddTask}
+      />
       {tasks && (
-        <ul className={tasks}>
-          {/* {tasks.sort((a, b) => b.id - a.id).map(task => ( */}
-          {tasks.map(task => (
+        <ul className={tasks}> 
+          {reversedTasks.map(task => (
             <TaskItem
               key={task.id}
               task={task}
